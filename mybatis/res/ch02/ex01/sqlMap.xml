@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE mapper PUBLIC './/mybatis.org//DTD Mapper 3.0//EN'
+	'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<!-- DOCTYPE은 무슨문서이냐 이건 mapper -->
+<!-- namespace는 함수이름? 같은거 -->
+<mapper namespace='ch02.ex01.Map'> <!-- 이타입과 관계를 맺음? -->
+	<select id='selectUsers' resultType='user'> <!-- user는 alis의 별명 -->
+		select user_id userId, user_name userName, reg_date regDate
+		from users
+		order by user_id
+	</select>
+	<!-- mybatis가 select태그를 읽고 객체를 생성한다. -->
+</mapper>

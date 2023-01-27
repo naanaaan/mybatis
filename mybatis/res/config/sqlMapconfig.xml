@@ -1,0 +1,36 @@
+<?xml version = '1.0' encoding='utf-8' ?>
+<!DOCTYPE configuration PUBLIC './/mybatis.org//DTD config 3.0//EN'
+	'http://mybatis.org/dtd/mybatis-3-config.dtd'>
+<configuration>
+	<properties resource='config/jdbc.properties'>
+	<!-- 아래는 새로 property를 추가해준것 없는 것을 추가해준 것이다. -->
+		<property name='driver' value='oracle.jdbc.driver.OracleDriver'/>
+	</properties>
+	<!-- 여기서 type class와 동의어, alias는 별명 -->
+	<typeAliases>
+		<typeAlias type='ch02.domain.User' alias='user'/>
+	</typeAliases>
+	<!-- environments는 DBMS를 의미한다. -->
+	<environments default="development">
+		<environment id='development'>
+			<transactionManager type='JDBC'/>
+			<!-- datasource는 connection을 의마함 오라클과 자바 POOLED connection n개만듬-->
+			<!-- 왜냐면 그때끄때만들면 느리기떄문에 미리 만들어 두는 것이다. -->
+			<dataSource type="POOLED">
+			<!-- driver 맴버변수위에꺼 ${}expression language이라고하며 위에 driver value를 가져오는것이다. -->
+			<!-- jdbc,property를 따로둬서 유지보수에 좋다. -->
+				<property name='driver' value='${driver}'/>
+				<property name='url' value= '${url}'/>
+				<property name='username' value='${username}'/>
+				<property name='password' value='${password}'/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<mappers>
+		<mapper resource='ch02/ex01/sqlMap.xml'/>
+		<mapper resource='ch02/ex02/sqlMap.xml'/>
+		<mapper resource='ch02/ex03/sqlMap.xml'/>
+		<mapper resource='ch02/ex04/sqlMap.xml'/>
+	</mappers>
+</configuration>

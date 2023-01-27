@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE mapper PUBLIC './/mybatis.org//DTD Mapper 3.0//EN'
+   'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='ch02.ex03.Map'>
+   <insert id='insertUser'>
+      insert into users values(
+         #{userId, jdbcType=NUMERIC}, <!--jdbcType=NUMERIC : null값도 허용하려면 입력 -->
+         #{userName, jdbcType=VARCHAR}, <!-- parameter type까지 기술하면 null값이 들어와도 잘 들어간다. -->
+         #{regDate, jdbcType=DATE}) <!-- parameter가 2개 이상일때는 이름을 신경써서 정확히 입력해야한다. -->
+   </insert>
+   
+   <insert id='insertUser2'>
+      insert into users values(
+         #{userId},
+         #{userName},
+         #{regDate}) <!-- Param annotation의 이름과 일치시킨다. -->
+   </insert>
+   
+   <insert id='insertUser3'>
+      insert into users values(
+         #{param1},
+         #{param2},
+         #{param3}) <!-- parameter가 없으므로 대명사를 사용, 나쁜코드 -->
+   </insert>
+</mapper>
