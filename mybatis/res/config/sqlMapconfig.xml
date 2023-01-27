@@ -9,6 +9,7 @@
 	<!-- 여기서 type class와 동의어, alias는 별명 -->
 	<typeAliases>
 		<typeAlias type='ch02.domain.User' alias='user'/>
+		<package name= 'ch03.domain'/> <!-- 알아서 별명생성해줌 하나는 소문자 하나는 대문자로 시작-->
 	</typeAliases>
 	<!-- environments는 DBMS를 의미한다. -->
 	<environments default="development">
@@ -33,5 +34,6 @@
 		<mapper resource='ch02/ex03/sqlMap.xml'/>
 		<mapper resource='ch02/ex04/sqlMap.xml'/>
 		<mapper resource='ch02/ex05/sqlMap.xml'/>
+		<mapper resource='ch03/ex01/sqlMap.xml'/>
 	</mappers>
 </configuration>
