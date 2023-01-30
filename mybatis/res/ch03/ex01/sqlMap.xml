@@ -19,7 +19,7 @@
 	</select>
 	
 	<resultMap id='userMap' type='myUser'>
-		<id property='userId' column='user_id'/> <!-- pk는 id -->
+		<id property='userId'  column='user_id'/> <!-- pk는 id -->
 		<result property='userName' column='user_name'/>
 		<result property='regDate' column='reg_date'/>
 		<association property='address' select='selectAddress' column='user_id'/>

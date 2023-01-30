@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE mapper PUBLIC './/mybatis.org//DTD Mapper 3.0//EN'
+   'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='ch05.ex02.Map'>
+   <select id='selectUser' resultMap='userMap'>
+      <bind name='title' value='"%" + post.title + "%"'/>
+      <bind name='content' value='"%" + post.content + "%"'/>
+      select users.user_id, user_name, reg_date, post_title, post_content
+      from users join posts
+      on users.user_id = posts.user_id
+      where user_name = #{userName}
+      <!-- 3가지 dynamic sql 구성. -->
+      <!-- choose는 베타적 if는 비베타적 -->
+      <choose>
+         <when test='post != null and post.title != null'>
+            <!-- bind절에서 설정했던 변수명을 #{}안에 사용. -->
+            and posts.post_title like #{title}
+         </when>
+         <when test='post != null and post.content != null'>
+            and posts.post_content like #{content}
+         </when>
+         <otherwise><!-- 기본을 넣어줄 수 있다. 모든 행이 false일때 사용. -->
+            and posts.user_id is not null
+         </otherwise>
+      </choose> 
+   </select>
+   <!-- post_중복이라 columnPrefix를 쓴다. -->
+   <resultMap id='userMap' type='ch05.domain.User'>
+      <id property='userId' column='user_id'/>
+      <result property='userName' column='user_name'/>
+      <result property='regDate' column='reg_date'/>
+      <collection property='posts' ofType='ch05.domain.Post' columnPrefix='post_'>
+         <result property='title' column='title'/>
+         <result property='content' column='content'/>
+      </collection>
+   </resultMap>
+</mapper>

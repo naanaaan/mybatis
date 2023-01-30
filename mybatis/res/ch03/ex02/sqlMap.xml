@@ -8,6 +8,16 @@
 		on users.user_id = addresses.user_id
 		order by user_id
 	</select>
-	
-	
+	<!-- ex01이 더 객체지향답지만 쿼리를 2번보내기 때문에 DB입장에서는
+	이 방식이 더 좋다. ex01을 쓸려면 DB가 깔끔해야하며 ex02방식은 더러울때 쓴다. -->
+	<resultMap id="userMap" type="myUser">
+		<id property='userId' column='user_id'/>
+		<result property='userName' column='user_name'/>
+		<result property='regDate' column='reg_date'/>
+		<association property='address' resultMap='addressMap'/>
+	</resultMap>
+		
+	<resultMap id='addressMap' type='address'>
+		<result property='address' column='address'/>
+	</resultMap>	
 </mapper>

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE mapper PUBLIC './/mybatis.org//DTD Mapper 3.0//EN'
+	'http://mybatis.org/dtd/mybatis-3-mapper.dtd'><!-- DOCTYPE은 무슨문서이냐 이건 mapper --><!-- namespace는 함수이름? 같은거 -->
+<mapper namespace='ch04.ex01.Map'>
+	<select id='selectUsers' resultMap='userMap'>
+		select users.user_id, user_name, reg_date
+		from users
+		order by user_id
+	</select>
+	
+	<select id='selectPosts' resultType='ch04.domain.Post'>
+		select post_title title, post_content content
+		from posts
+		where user_id = #{userId}	<!-- 외래키라서 가능 -->
+	</select>
+	
+	<resultMap id='userMap' type='ch04.domain.User'>
+		<id property='userId' column='user_id'/>
+		<result property='userName' column='user_name'/>
+		<result property='regDate' column='reg_date'/>
+		<collection property='posts' column='user_id' select='selectPosts'/> <!-- datatype List fk  collection을 쓴다. -->
+	</resultMap>
+</mapper>
