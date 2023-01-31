@@ -2,17 +2,26 @@
 <!DOCTYPE configuration PUBLIC './/mybatis.org//DTD config 3.0//EN'
 	'http://mybatis.org/dtd/mybatis-3-config.dtd'>
 <configuration>
+
+	 <!-- 아래는 새로 property를 추가해준것 없는 것을 추가해준 것이다. -->
 	<properties resource='config/jdbc.properties'>
-	<!-- 아래는 새로 property를 추가해준것 없는 것을 추가해준 것이다. -->
 		<property name='driver' value='oracle.jdbc.driver.OracleDriver'/>
 	</properties>
+	
+	<!-- <properties resource='config/hr.properties'/>-->
+	
+	<settings>
+		<setting name='cacheEnabled' value='false'/>
+		<setting name='localCacheScope' value='STATEMENT'/>
+	</settings>
+	
 	<!-- 여기서 type class와 동의어, alias는 별명 -->
 	<typeAliases>
 		<typeAlias type='ch02.domain.User' alias='user'/>
 		<package name= 'ch03.domain'/> <!-- 알아서 별명생성해줌 하나는 소문자 하나는 대문자로 시작-->
 	</typeAliases>
 	<!-- environments는 DBMS를 의미한다. -->
-	<environments default="development">
+	<environments default="development"> <!-- 아이디지정안했을떄 기본 값 -->
 		<environment id='development'>
 			<transactionManager type='JDBC'/>
 			<!-- datasource는 connection을 의마함 오라클과 자바 POOLED connection n개만듬-->
@@ -26,8 +35,18 @@
 				<property name='password' value='${password}'/>
 			</dataSource>
 		</environment>
+		
+		<environment id='hr'>
+			<transactionManager type='JDBC'/>
+			<dataSource type='POOLED'>
+				<property name='driver' value='${driver}'/>
+				<property name='url' value= '${url}'/>
+				<property name='username' value='${username}'/>
+				<property name='password' value='${password}'/>
+			</dataSource>
+		</environment>
 	</environments>
-	
+	<!--  패키지는 / class는 . -->
 	<mappers>
 		<mapper resource='ch02/ex01/sqlMap.xml'/>
 		<mapper resource='ch02/ex02/sqlMap.xml'/>
@@ -45,5 +64,11 @@
 		<mapper resource='ch05/ex05/sqlMap.xml'/>
 		<mapper resource='ch05/ex06/sqlMap.xml'/>
 		<mapper resource='ch05/ex07/sqlMap.xml'/>
+		<mapper resource='ch06/dao/map/employeeMap.xml'/>
+		<mapper class='ch07.ex01.Map'/>
+		<mapper class='ch07.ex02.Map'/>
+		<mapper class='ch07.ex03.Map'/>
+		<mapper class='ch07.ex04.Map'/>
+		<mapper class='ch07.ex05.Map'/>
 	</mappers>
 </configuration>

@@ -15,6 +15,8 @@ public class Configuration {
 		try {
 			Reader reader = Resources.getResourceAsReader("config/sqlMapConfig.xml");
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+//			InputStream stream = Resources.getResourceAsStream("config/sqlMapConfig.xml");
+//			sqlSessionFactory = new SqlSessionFactoryBuilder().build(stream, "hr"); //environment hr
 		} catch(Exception e) {
 			e.printStackTrace();
 			
