@@ -5,25 +5,26 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.my.hr.config.Configuration;
+import com.my.hr.dao.Map.LaborerMap;
 import com.my.hr.domain.Laborer;
 import com.my.hr.domain.NoneException;
 
 public class LaborerDaoImpl implements LaborerDao {
-	private List<Laborer> laborers;
-	private int laborerIdSeq;
+	private LaborerMap laborerMap;
 	
 	public LaborerDaoImpl(List<Laborer> laborers) {
-		this.laborers = laborers;
-		this.laborerIdSeq = 1;
+		this.laborerMap = Configuration.getMapper(LaborerMap.class);
 	}
 	
 	@Override
 	public List<Laborer> selectLaborers() {
-		return laborers;
+		return laborerMap.selectLaborers();
 	}
 	
 	private Laborer selectLaborer(int laborerId) {
-		List<Laborer> list = laborers.stream() //아래 filter에서 true인 값들을 stream에 추가
+		
+		List<Laborer> list = laborerMap.selectLaborers().stream() //아래 filter에서 true인 값들을 stream에 추가
 				.filter(laborer -> laborer.laborerId() == laborerId) //callback filter method가 laborer를 간접적으로 불러온다.
 				.collect(Collectors.toList());
 		
@@ -35,20 +36,20 @@ public class LaborerDaoImpl implements LaborerDao {
 	
 	@Override
 	public void insertLaborer(String laborerName, LocalDate hireDate) {
-		laborers.add(new Laborer(laborerIdSeq++, laborerName, hireDate));
+		laborerMap.selectLaborers().add(new Laborer(laborerMap.selectlaborerSqe(), laborerName, hireDate));
 	}
 	
 	@Override
 	public void updateLaborer(Laborer laborer) {
 		this.deleteLaborer(laborer.laborerId());
-		laborers.add(laborer);
-		laborers.sort(Comparator.comparing(Laborer::laborerId/*laborerId는 method다.*/)); //laborerId로 내림차순 정렬.
+		laborerMap.selectLaborers().add(laborer);
+		laborerMap.selectLaborers().sort(Comparator.comparing(Laborer::laborerId/*laborerId는 method다.*/)); //laborerId로 내림차순 정렬.
 	}
 	
 	@Override
 	public void deleteLaborer(int laborerId) throws NoneException {
 		Laborer laborer = selectLaborer(laborerId);
-		if(laborer != null) laborers.remove(laborer);
+		if(laborer != null) laborerMap.selectLaborers().remove(laborer);
 		else throw new NoneException("해당 노동자가 없습니다.");
 	}
 }
