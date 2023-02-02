@@ -3,7 +3,7 @@
 	'http://mybatis.org/dtd/mybatis-3-config.dtd'>
 <configuration>
 
-	<properties resource='config/hr2.properties'/>
+	<properties resource='com/my/hr/config/hr2.properties'/>
 	
 	<settings>
 		<setting name='cacheEnabled' value='false'/>
@@ -23,6 +23,6 @@
 	</environments>
 
 	<mappers>
-		<mapper resource='com.my.hr.config.LaborerMap.xml'/>
+		<mapper resource='com/my/hr/config/sqlMap.xml'/>
 	</mappers>
 </configuration>

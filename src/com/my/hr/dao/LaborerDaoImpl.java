@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.my.hr.config.Configuration;
-import com.my.hr.dao.Map.LaborerMap;
+import com.my.hr.dao.map.LaborerMap;
 import com.my.hr.domain.Laborer;
 import com.my.hr.domain.NoneException;
 
@@ -25,7 +25,7 @@ public class LaborerDaoImpl implements LaborerDao {
 	private Laborer selectLaborer(int laborerId) {
 		
 		List<Laborer> list = laborerMap.selectLaborers().stream() //아래 filter에서 true인 값들을 stream에 추가
-				.filter(laborer -> laborer.laborerId() == laborerId) //callback filter method가 laborer를 간접적으로 불러온다.
+				.filter(laborer -> laborer.getLaborerId() == laborerId) //callback filter method가 laborer를 간접적으로 불러온다.
 				.collect(Collectors.toList());
 		
 		Laborer laborer = null;
@@ -36,20 +36,19 @@ public class LaborerDaoImpl implements LaborerDao {
 	
 	@Override
 	public void insertLaborer(String laborerName, LocalDate hireDate) {
-		laborerMap.selectLaborers().add(new Laborer(laborerMap.selectlaborerSqe(), laborerName, hireDate));
+		laborerMap.insertLaborer(laborerName, hireDate);
 	}
 	
 	@Override
 	public void updateLaborer(Laborer laborer) {
-		this.deleteLaborer(laborer.laborerId());
-		laborerMap.selectLaborers().add(laborer);
-		laborerMap.selectLaborers().sort(Comparator.comparing(Laborer::laborerId/*laborerId는 method다.*/)); //laborerId로 내림차순 정렬.
+		laborerMap.updateLaborer(laborer);
+		laborerMap.selectLaborers().sort(Comparator.comparing(Laborer::getLaborerId/*laborerId는 method다.*/)); //laborerId로 내림차순 정렬.
 	}
 	
 	@Override
 	public void deleteLaborer(int laborerId) throws NoneException {
 		Laborer laborer = selectLaborer(laborerId);
-		if(laborer != null) laborerMap.selectLaborers().remove(laborer);
+		if(laborer != null) laborerMap.deleteLaborer(laborerId);
 		else throw new NoneException("해당 노동자가 없습니다.");
 	}
 }

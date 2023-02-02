@@ -12,7 +12,7 @@ public class Configuration {
 	
 	static {
 		try {
-			InputStream stream = Resources.getResourceAsStream("config/sqlMapConfig.xml");
+			InputStream stream = Resources.getResourceAsStream("com/my/hr/config/sqlMapConfig.xml");
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(stream, "hr2");
 		} catch(Exception e) {
 			e.printStackTrace();
