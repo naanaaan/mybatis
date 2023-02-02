@@ -9,9 +9,9 @@ import com.my.hr.domain.Laborer;
 
 public interface LaborerMap {
 	List<Laborer> selectLaborers();
-	void insertLaborer(
+	int insertLaborer(
 			@Param("laborerName")String laborerName, 
 			@Param("hireDate") LocalDate hireDate);
-	void updateLaborer(Laborer laborer);
-	void deleteLaborer(int laborerId);
+	int updateLaborer(Laborer laborer);
+	int deleteLaborer(int laborerId);
 }

@@ -16,22 +16,9 @@ public class LaborerDaoImpl implements LaborerDao {
 	public LaborerDaoImpl(List<Laborer> laborers) {
 		this.laborerMap = Configuration.getMapper(LaborerMap.class);
 	}
-	
 	@Override
-	public List<Laborer> selectLaborers() {
+	public List<Laborer> selectLaborers(){
 		return laborerMap.selectLaborers();
-	}
-	
-	private Laborer selectLaborer(int laborerId) {
-		
-		List<Laborer> list = laborerMap.selectLaborers().stream() //아래 filter에서 true인 값들을 stream에 추가
-				.filter(laborer -> laborer.getLaborerId() == laborerId) //callback filter method가 laborer를 간접적으로 불러온다.
-				.collect(Collectors.toList());
-		
-		Laborer laborer = null;
-		if(list.size() != 0) laborer = list.get(0);
-		
-		return laborer; //key의 값 또는 null값 return. //true or false
 	}
 	
 	@Override
@@ -41,14 +28,14 @@ public class LaborerDaoImpl implements LaborerDao {
 	
 	@Override
 	public void updateLaborer(Laborer laborer) {
-		laborerMap.updateLaborer(laborer);
-		laborerMap.selectLaborers().sort(Comparator.comparing(Laborer::getLaborerId/*laborerId는 method다.*/)); //laborerId로 내림차순 정렬.
+		if(laborerMap.updateLaborer(laborer) == 0)
+			throw new NoneException("해당 노동자가 없습니다.");
+	
 	}
 	
 	@Override
 	public void deleteLaborer(int laborerId) throws NoneException {
-		Laborer laborer = selectLaborer(laborerId);
-		if(laborer != null) laborerMap.deleteLaborer(laborerId);
-		else throw new NoneException("해당 노동자가 없습니다.");
+		if(laborerMap.deleteLaborer(laborerId) == 0)
+		throw new NoneException("해당 노동자가 없습니다.");
 	}
 }

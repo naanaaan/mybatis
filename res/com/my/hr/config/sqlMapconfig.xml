@@ -2,13 +2,16 @@
 <!DOCTYPE configuration PUBLIC './/mybatis.org//DTD config 3.0//EN'
 	'http://mybatis.org/dtd/mybatis-3-config.dtd'>
 <configuration>
-
-	<properties resource='com/my/hr/config/hr2.properties'/>
+	<properties resource='com/my/hr/config/jdbc.properties'/>
 	
 	<settings>
 		<setting name='cacheEnabled' value='false'/>
 		<setting name='localCacheScope' value='STATEMENT'/>
 	</settings>
+	
+	<typeAliases>
+		<package name='com.my.hr.domain'/>
+	</typeAliases>
 	
 	<environments default="hr2"> 		
 		<environment id='hr2'>
